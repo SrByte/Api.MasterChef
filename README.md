@@ -1,1 +1,1 @@
-# Api.MasterChef
+- Usado IMemoryCache como contexto para o CRUD das receitas.
