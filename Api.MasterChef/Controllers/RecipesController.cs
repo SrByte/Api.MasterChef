@@ -4,114 +4,114 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Api.MasterChef.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class RecipesController : ControllerBase
-    {
-        private readonly IMemoryCache _cache;
+	[Route("api/v1/[controller]")]
+	[ApiController]
+	public class RecipesController : ControllerBase
+	{
+		private readonly IMemoryCache _cache;
 
-        public RecipesController(IMemoryCache cache)
-        {
-            _cache = cache;
-        }
+		public RecipesController(IMemoryCache cache)
+		{
+			_cache = cache;
+		}
 
-        [HttpPost]
-        public async Task<ActionResult<RecipeDto>> CreateRecipe(RecipeDto recipeDto)
-        {
-            var cacheKey = "AllRecipes";
+		[HttpPost]
+		public async Task<ActionResult<RecipeDto>> CreateRecipe(RecipeDto recipeDto)
+		{
+			var cacheKey = "AllRecipes";
 
-            if (!_cache.TryGetValue(cacheKey, out List<RecipeDto> allRecipes))
-                allRecipes = new List<RecipeDto>();
+			if (!_cache.TryGetValue(cacheKey, out List<RecipeDto> allRecipes))
+				allRecipes = new List<RecipeDto>();
 
-            var maxId = allRecipes.DefaultIfEmpty().Max(r => r?.Id ?? 0);
-            recipeDto.Id = maxId + 1;
+			var maxId = allRecipes.DefaultIfEmpty().Max(r => r?.Id ?? 0);
+			recipeDto.Id = maxId + 1;
 
-            allRecipes.Add(recipeDto);
+			allRecipes.Add(recipeDto);
 
-            var cacheEntryOptions = new MemoryCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1)
-            };
+			var cacheEntryOptions = new MemoryCacheEntryOptions
+			{
+				AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1)
+			};
 
-            _cache.Set(cacheKey, allRecipes, cacheEntryOptions);
+			_cache.Set(cacheKey, allRecipes, cacheEntryOptions);
 
-            return CreatedAtAction(nameof(GetRecipe), new { id = recipeDto.Id }, recipeDto);
-        }
+			return CreatedAtAction(nameof(GetRecipe), new { id = recipeDto.Id }, recipeDto);
+		}
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<RecipeDto>> GetRecipe(int id)
-        {
-            var cacheKey = "AllRecipes";
+		[HttpGet("{id}")]
+		public async Task<ActionResult<RecipeDto>> GetRecipe(int id)
+		{
+			var cacheKey = "AllRecipes";
 
-            if (_cache.TryGetValue(cacheKey, out List<RecipeDto> allRecipes))
-            {
-                var recipe = allRecipes.FirstOrDefault(r => r.Id == id);
+			if (_cache.TryGetValue(cacheKey, out List<RecipeDto> allRecipes))
+			{
+				var recipe = allRecipes.FirstOrDefault(r => r.Id == id);
 
-                if (recipe != null)
-                    return recipe;
-            }
+				if (recipe != null)
+					return recipe;
+			}
 
-            return NotFound();
-        }
+			return NotFound();
+		}
 
-        [HttpPut()]
-        public async Task<IActionResult> UpdateRecipe(RecipeDto updatedRecipe)
-        {
-            var cacheKey = "AllRecipes";
+		[HttpPut()]
+		public async Task<IActionResult> UpdateRecipe(RecipeDto updatedRecipe)
+		{
+			var cacheKey = "AllRecipes";
 
-            if (_cache.TryGetValue(cacheKey, out List<RecipeDto> allRecipes))
-            {
-                var existingRecipe = allRecipes.FirstOrDefault(r => r.Id == updatedRecipe.Id);
+			if (_cache.TryGetValue(cacheKey, out List<RecipeDto> allRecipes))
+			{
+				var existingRecipe = allRecipes.FirstOrDefault(r => r.Id == updatedRecipe.Id);
 
-                if (existingRecipe != null)
-                {
-                    existingRecipe.Name = updatedRecipe.Name;
-                    existingRecipe.Category = updatedRecipe.Category;
-                    existingRecipe.Description = updatedRecipe.Description;
-                    existingRecipe.Ingredients = updatedRecipe.Ingredients;
-                    existingRecipe.Instructions = updatedRecipe.Instructions;
+				if (existingRecipe != null)
+				{
+					existingRecipe.Name = updatedRecipe.Name;
+					existingRecipe.Description = updatedRecipe.Description;
 
-                    _cache.Set(cacheKey, allRecipes);
-                }
+					_cache.Set(cacheKey, allRecipes);
+					return Ok(existingRecipe);
 
-                return NoContent();
-            }
+				}
 
-            return NotFound();
-        }
+				return NoContent();
+			}
+
+			return NotFound();
+		}
 
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRecipe(int id)
-        {
-            var cacheKey = "AllRecipes";
+		[HttpDelete("{id}")]
+		public async Task<IActionResult> DeleteRecipe(int id)
+		{
+			var cacheKey = "AllRecipes";
 
-            if (_cache.TryGetValue(cacheKey, out List<RecipeDto> allRecipes))
-            {
-                var recipeToRemove = allRecipes.FirstOrDefault(r => r.Id == id);
+			if (_cache.TryGetValue(cacheKey, out List<RecipeDto> allRecipes))
+			{
+				var recipeToRemove = allRecipes.FirstOrDefault(r => r.Id == id);
 
-                if (recipeToRemove != null)
-                {
-                    allRecipes.Remove(recipeToRemove);
+				if (recipeToRemove != null)
+				{
+					allRecipes.Remove(recipeToRemove);
 
-                    _cache.Set(cacheKey, allRecipes);
-                }
+					_cache.Set(cacheKey, allRecipes);
+					return Ok();
+				}
 
-                return NoContent();
-            }
+				return NoContent();
+			}
 
-            return NotFound();
-        }
+			return NotFound();
+		}
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<RecipeDto>>> GetAllRecipes()
-        {
-            var cacheKey = "AllRecipes";
+		[HttpGet]
+		public async Task<ActionResult<IEnumerable<RecipeDto>>> GetAllRecipes()
+		{
+			var cacheKey = "AllRecipes";
 
-            if (_cache.TryGetValue(cacheKey, out List<RecipeDto> allRecipes))
-                return allRecipes;
+			if (_cache.TryGetValue(cacheKey, out List<RecipeDto> allRecipes))
+				return allRecipes;
 
-            return new List<RecipeDto>();
-        }
-    }
+			return new List<RecipeDto>();
+		}
+	}
 }

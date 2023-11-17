@@ -1,6 +1,6 @@
-﻿namespace Api.MasterChef.Models
+﻿namespace MasterChef.Web.Models
 {
-    public class RecipeDto
+    public class RecipetModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
