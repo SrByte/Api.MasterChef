@@ -1,7 +1,7 @@
 ﻿@model MasterChef.Web.Models.RecipetModel
 
-<form asp-action="RecipeUpdate">
-	@* @Html.AntiForgeryToken() *@
+<form asp-action="RecipeUpdate" asp-antiforgery="true">
+	@Html.AntiForgeryToken()
 	<input asp-for="Id" hidden>
 	<br />
 	<div class="container border p-3">
@@ -28,11 +28,11 @@
 			</div>
 
 			<div class="col-5 offset-2">
-				<a asp-action="ProductIndex" class="btn-primary btn form-control ">Retornar</a>
+				<a asp-action="ProductIndex" class="btn-primary btn form-control ">Voltar</a>
 			</div>
 
 			<div class="col-5">
-				<input type="submit" value="Update" class="btn btn-success form-control" />
+				<input type="submit" value="Atualizar" class="btn btn-success form-control" />
 			</div>
 		</div>
 	</div>

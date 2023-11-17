@@ -15,7 +15,6 @@ namespace MasterChef.Web.Controllers
 		{
 			_recipeService = recipeService ?? throw new ArgumentNullException(nameof(recipeService));
 		}
-
 		public async Task<IActionResult> RecipeIndex()
 		{
 			var recipes = await _recipeService.FindAllRecipes();
@@ -27,8 +26,8 @@ namespace MasterChef.Web.Controllers
 			return View();
 		}
 
-		//[Authorize]
-		[HttpPost]
+        //[Authorize]
+        [HttpPost]
 		public async Task<IActionResult> RecipeCreate(RecipetModel model)
 		{
 			if (ModelState.IsValid)
@@ -39,16 +38,15 @@ namespace MasterChef.Web.Controllers
 			}
 			return View(model);
 		}
-
-		public async Task<IActionResult> RecipeUpdate(int id)
+        public async Task<IActionResult> RecipeUpdate(int id)
 		{
 			var model = await _recipeService.FindRecipeById(id);
 			if (model != null) return View(model);
 			return NotFound();
 		}
 
-		//[Authorize]
-		[HttpPost]
+        //[Authorize]
+        [HttpPost]
 		public async Task<IActionResult> RecipeUpdate(RecipetModel model)
 		{
 			if (ModelState.IsValid)
@@ -60,15 +58,15 @@ namespace MasterChef.Web.Controllers
 			return View(model);
 		}
 
-		//[Authorize]
-		public async Task<IActionResult> RecipeDelete(int id)
+        //[Authorize]
+        public async Task<IActionResult> RecipeDelete(int id)
 		{
 			var model = await _recipeService.FindRecipeById(id);
 			if (model != null) return View(model);
 			return NotFound();
 		}
 
-		[HttpPost]
+        [HttpPost]
 		//[Authorize(Roles = Role.Admin)]
 		public async Task<IActionResult> RecipeDelete(RecipetModel model)
 		{

@@ -1,8 +1,9 @@
 ﻿@model MasterChef.Web.Models.RecipetModel
 
 
-<form asp-action="RecipeCreate">
+<form asp-action="RecipeCreate" asp-antiforgery="true">
     <br/>
+    @Html.AntiForgeryToken()
     <div class="container border p-3">
         <h1 class="text-primary">Cadastrar</h1>
 
@@ -25,11 +26,11 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>          
             <div class="col-5 offset-2">
-                <a asp-action="RecipeIndex" class="btn-primary btn form-control ">REtornar</a>
+                <a asp-action="RecipeIndex" class="btn-primary btn form-control ">Voltar</a>
             </div>
 
             <div class="col-5">
-                <input type="submit" value="Create" class="btn btn-success form-control" />
+                <input type="submit" value="Criar" class="btn btn-success form-control" />
             </div>
         </div>
     </div>

@@ -94,7 +94,7 @@ namespace Api.MasterChef.Controllers
 					allRecipes.Remove(recipeToRemove);
 
 					_cache.Set(cacheKey, allRecipes);
-					return Ok();
+					return Ok(true);
 				}
 
 				return NoContent();

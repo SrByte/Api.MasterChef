@@ -32,25 +32,24 @@ namespace MasterChef.Web.Services
             var response = await _client.PostAsJson(BasePath, model);
             if (response.IsSuccessStatusCode)
                 return await response.ReadContentAs<RecipetModel>();
-            else throw new Exception("Something went wrong when calling API");
+            else throw new Exception("Deu algum ruim na chamada da API.");
         }
         public async Task<RecipetModel> UpdateRecipe(RecipetModel model)
         {
             var response = await _client.PutAsJson(BasePath, model);
-			//var response = await _client.GetAsync($"{BasePath}/{model.Id}");
 			return await response.ReadContentAs<RecipetModel>();
 
-			//if (response.IsSuccessStatusCode)
-			//    return await response.ReadContentAs<RecipetModel>();
-			//else throw new Exception("Something went wrong when calling API");
-		}
+            if (response.IsSuccessStatusCode)
+                return await response.ReadContentAs<RecipetModel>();
+            else throw new Exception("Deu algum ruim na chamada da API.");
+        }
 
         public async Task<bool> DeleteRecipeById(long id)
         {
             var response = await _client.DeleteAsync($"{BasePath}/{id}");
             if (response.IsSuccessStatusCode)
                 return await response.ReadContentAs<bool>();
-            else throw new Exception("Something went wrong when calling API");
+            else throw new Exception("Deu algum ruim na chamada da API.");
         }
     }
 }
