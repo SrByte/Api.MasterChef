@@ -63,7 +63,7 @@ namespace Api.MasterChef.Controllers
 		[HttpGet("{id}")]
 		public async Task<ActionResult<IngredientDto>> GetIngredient(int id)
 		{
-			var cacheKey = "\t\t{\r\n";
+			var cacheKey = "AllIngredients";
 
 			if (_cache.TryGetValue(cacheKey, out List<IngredientDto> allIngredients))
 			{

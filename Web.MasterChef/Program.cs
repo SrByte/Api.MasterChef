@@ -7,7 +7,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 #pragma warning disable CS8604 // Possible null reference argument.
 builder.Services.AddHttpClient<IRecipeService, RecipeService>(
-	c => c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:RecipeAPI"])
+	c => c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:MasterChefAPI"])
+);
+builder.Services.AddHttpClient<IIngredientService, IngredientService>(
+	c => c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:MasterChefAPI"])
+);
+builder.Services.AddHttpClient<ICategoryService, CategoryService>(
+	c => c.BaseAddress = new Uri(builder.Configuration["ServiceUrls:MasterChefAPI"])
 );
 #pragma warning restore CS8604 // Possible null reference argument.
 

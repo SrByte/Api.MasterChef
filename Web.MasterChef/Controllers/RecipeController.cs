@@ -28,7 +28,7 @@ namespace MasterChef.Web.Controllers
 
         //[Authorize]
         [HttpPost]
-		public async Task<IActionResult> RecipeCreate(RecipetModel model)
+		public async Task<IActionResult> RecipeCreate(RecipeModel model)
 		{
 			if (ModelState.IsValid)
 			{
@@ -47,7 +47,7 @@ namespace MasterChef.Web.Controllers
 
         //[Authorize]
         [HttpPost]
-		public async Task<IActionResult> RecipeUpdate(RecipetModel model)
+		public async Task<IActionResult> RecipeUpdate(RecipeModel model)
 		{
 			if (ModelState.IsValid)
 			{
@@ -68,7 +68,7 @@ namespace MasterChef.Web.Controllers
 
         [HttpPost]
 		//[Authorize(Roles = Role.Admin)]
-		public async Task<IActionResult> RecipeDelete(RecipetModel model)
+		public async Task<IActionResult> RecipeDelete(RecipeModel model)
 		{
 			var response = await _recipeService.DeleteRecipeById(model.Id);
 			if (response) return RedirectToAction(

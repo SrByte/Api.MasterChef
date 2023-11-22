@@ -8,10 +8,10 @@ namespace MasterChef.Web.Services.IServices
 {
     public interface IRecipeService
     {
-        Task<IEnumerable<RecipetModel>> FindAllRecipes();
-        Task<RecipetModel> FindRecipeById(long id);
-        Task<RecipetModel> CreateRecipe(RecipetModel model);
-        Task<RecipetModel> UpdateRecipe(RecipetModel model);
+        Task<IEnumerable<RecipeModel>> FindAllRecipes();
+        Task<RecipeModel> FindRecipeById(long id);
+        Task<RecipeModel> CreateRecipe(RecipeModel model);
+        Task<RecipeModel> UpdateRecipe(RecipeModel model);
         Task<bool> DeleteRecipeById(long id);
     }
 } 

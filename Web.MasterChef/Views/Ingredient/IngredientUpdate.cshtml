@@ -1,6 +1,6 @@
-﻿@model MasterChef.Web.Models.RecipeModel
+﻿@model MasterChef.Web.Models.IngredientModel
 
-<form asp-action="RecipeUpdate" asp-antiforgery="true">
+<form asp-action="IngredientUpdate" asp-antiforgery="true">
 	@Html.AntiForgeryToken()
 	<input asp-for="Id" hidden>
 	<br />
@@ -12,23 +12,14 @@
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 			<div class="col-2">
-				<label asp-for="Description" class="control-label pt-2" style="font-size:20px;">Receita</label>
+				<label asp-for="Name" class="control-label pt-2" style="font-size:20px;">Ingrediente</label>
 			</div>
 			<div class="col-10 pb-3">
 				<input asp-for="Name" class="form-control" />
 				<span asp-validation-for="Name" class="text-danger" />
 			</div>
-
-			<div class="col-2">
-				<label asp-for="Description" class="control-label pt-2" style="font-size:20px;">Descrição</label>
-			</div>
-			<div class="col-10 pb-3">
-				<textarea asp-for="Description" class="form-control" rows="5"></textarea>
-				<span asp-validation-for="Description" class="text-danger"></span>
-			</div>
-
 			<div class="col-5 offset-2">
-				<a asp-action="ProductIndex" class="btn-primary btn form-control ">Voltar</a>
+				<a asp-action="IngredientIndex" class="btn-primary btn form-control ">Voltar</a>
 			</div>
 
 			<div class="col-5">
