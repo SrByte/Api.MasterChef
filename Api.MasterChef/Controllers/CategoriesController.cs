@@ -13,6 +13,26 @@ namespace Api.MasterChef.Controllers
 		public CategoriesController(IMemoryCache cache)
 		{
 			_cache = cache;
+
+				PopularCategorias();
+		}
+		 private void PopularCategorias()
+		{
+			var cacheKey = "AllCategories";
+
+			if (!_cache.TryGetValue(cacheKey, out List<CategoryDto> allCategories))
+			{
+				allCategories= new List<CategoryDto>();
+				allCategories.Add(new CategoryDto() { Id = 1, Name = "Buteco" });
+				allCategories.Add(new CategoryDto() { Id = 2, Name = "Festa Junina" });
+
+				var cacheEntryOptions = new MemoryCacheEntryOptions
+				{
+					AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1)
+				};
+				_cache.Set(cacheKey, allCategories, cacheEntryOptions);
+			}
+
 		}
 
 		[HttpPost]
@@ -87,11 +107,11 @@ namespace Api.MasterChef.Controllers
 
 			if (_cache.TryGetValue(cacheKey, out List<CategoryDto> allCategories))
 			{
-				var recipeToCategory = allCategories.FirstOrDefault(r => r.Id == id);
+				var categoryToRemove = allCategories.FirstOrDefault(r => r.Id == id);
 
-				if (recipeToCategory != null)
+				if (categoryToRemove != null)
 				{
-					allCategories.Remove(recipeToCategory);
+					allCategories.Remove(categoryToRemove);
 
 					_cache.Set(cacheKey, allCategories);
 					return Ok(true);
