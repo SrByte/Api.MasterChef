@@ -67,6 +67,8 @@ namespace Api.MasterChef.Controllers
 				{
 					existingRecipe.Name = updatedRecipe.Name;
 					existingRecipe.Description = updatedRecipe.Description;
+					existingRecipe.CategoryId = updatedRecipe.CategoryId;
+
 
 					_cache.Set(cacheKey, allRecipes);
 					return Ok(existingRecipe);

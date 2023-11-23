@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Caching.Memory;
+using System.Collections.Generic;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MasterChef.Web.Controllers
@@ -51,6 +52,8 @@ namespace MasterChef.Web.Controllers
 		[HttpPost]
 		public async Task<IActionResult> RecipeCreate(RecipeModel model, string CategoryId)
 		{
+			model.CategoryId = int.Parse(CategoryId);
+
 			if (ModelState.IsValid)
 			{
 				var response = await _recipeService.CreateRecipe(model);
@@ -61,15 +64,33 @@ namespace MasterChef.Web.Controllers
 		}
 		public async Task<IActionResult> RecipeUpdate(int id)
 		{
+
 			var model = await _recipeService.FindRecipeById(id);
-			if (model != null) return View(model);
-			return NotFound();
+			if (model == null) return NotFound();
+			
+			var lista = await _categoryService.FindAllCategories();
+
+			List<SelectListItem> categoryList = (from p in lista.AsEnumerable()
+												 select new SelectListItem
+												 {
+													 Text = p.Name,
+													 Value = p.Id.ToString()
+												 }).ToList();
+
+			categoryList.Find(c => c.Value == model.CategoryId.ToString()).Selected = true;
+
+			ViewBag.CategoryId = categoryList;
+
+			return View(model);
+
 		}
 
 		//[Authorize]
 		[HttpPost]
-		public async Task<IActionResult> RecipeUpdate(RecipeModel model)
+		public async Task<IActionResult> RecipeUpdate(RecipeModel model, string ddlCategories)
 		{
+			model.CategoryId = int.Parse(ddlCategories);
+
 			if (ModelState.IsValid)
 			{
 				var response = await _recipeService.UpdateRecipe(model);
@@ -82,10 +103,29 @@ namespace MasterChef.Web.Controllers
 		//[Authorize]
 		public async Task<IActionResult> RecipeDelete(int id)
 		{
-			var model = await _recipeService.FindRecipeById(id);
-			if (model != null) return View(model);
-			return NotFound();
-		}
+			//var model = await _recipeService.FindRecipeById(id);
+			//if (model != null) return View(model);
+			//return NotFound();
+
+
+            var model = await _recipeService.FindRecipeById(id);
+            if (model == null) return NotFound();
+
+            var lista = await _categoryService.FindAllCategories();
+
+            List<SelectListItem> categoryList = (from p in lista.AsEnumerable()
+                                                 select new SelectListItem
+                                                 {
+                                                     Text = p.Name,
+                                                     Value = p.Id.ToString()
+                                                 }).ToList();
+
+            categoryList.Find(c => c.Value == model.CategoryId.ToString()).Selected = true;
+
+            ViewBag.CategoryId = categoryList;
+
+            return View(model);
+        }
 
 		[HttpPost]
 		//[Authorize(Roles = Role.Admin)]

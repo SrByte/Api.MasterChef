@@ -16,7 +16,13 @@
             </div>
             <div class="col-10 pb-3">
                 <input asp-for="Name" disabled class="form-control" />
-            </div>          
+            </div>    
+            <div class="col-2">
+                <label asp-for="Name" class="control-label pt-2" style="font-size:20px;">Categoria</label>
+            </div>
+            <div class="col-10 pb-3">
+                @Html.DropDownList("ddlCategories",(List<SelectListItem>)ViewBag.CategoryId, new { @disabled = "disabled" })
+            </div>
             <div class="col-2">
                 <label asp-for="Description" class="control-label pt-2" style="font-size:20px;">Descrição</label>
             </div>
