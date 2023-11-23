@@ -25,6 +25,20 @@
 				@Html.DropDownList("CategoryId")
 			</div>
 			<div class="col-2">
+				<label asp-for="URL" class="control-label pt-2" style="font-size:20px;">URL da Foto</label>
+			</div>
+			<div class="col-10 pb-3">
+				<input asp-for="URL" class="form-control" />
+				<span asp-validation-for="URL" class="text-danger"></span>
+			</div>
+			<div class="col-2">
+				<label asp-for="Tags" class="control-label pt-2" style="font-size:20px;">TAGs</label>
+			</div>
+			<div class="col-10 pb-3">
+				<input asp-for="Tags" class="form-control" />
+				<span asp-validation-for="Tags" class="text-danger"></span>
+			</div>
+			<div class="col-2">
 				<label asp-for="Description" class="control-label pt-2" style="font-size:20px;">Descrição</label>
 			</div>
 			<div class="col-10 pb-3">

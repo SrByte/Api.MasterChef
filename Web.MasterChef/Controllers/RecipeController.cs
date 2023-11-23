@@ -103,12 +103,7 @@ namespace MasterChef.Web.Controllers
 		//[Authorize]
 		public async Task<IActionResult> RecipeDelete(int id)
 		{
-			//var model = await _recipeService.FindRecipeById(id);
-			//if (model != null) return View(model);
-			//return NotFound();
-
-
-            var model = await _recipeService.FindRecipeById(id);
+			 var model = await _recipeService.FindRecipeById(id);
             if (model == null) return NotFound();
 
             var lista = await _categoryService.FindAllCategories();
@@ -123,6 +118,8 @@ namespace MasterChef.Web.Controllers
             categoryList.Find(c => c.Value == model.CategoryId.ToString()).Selected = true;
 
             ViewBag.CategoryId = categoryList;
+            ViewBag.Url = model.URL;
+
 
             return View(model);
         }
