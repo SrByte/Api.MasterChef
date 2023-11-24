@@ -25,6 +25,12 @@
 				@Html.DropDownList("ddlCategories",(List<SelectListItem>)ViewBag.CategoryId)
 			</div>
 			<div class="col-2">
+				<label asp-for="Name" class="control-label pt-2" style="font-size:20px;">Ingredientes</label>
+			</div>
+			<div class="col-10 pb-3">
+				@Html.ListBoxFor(x=>x.IngredientIds, new MultiSelectList(ViewBag.Ingredients, "Id", "Name"),new { @class = "control-label col-md-2" })
+			</div>
+			<div class="col-2">
 				<label asp-for="URL" class="control-label pt-2" style="font-size:20px;">URL da Foto</label>
 			</div>
 			<div class="col-10 pb-3">

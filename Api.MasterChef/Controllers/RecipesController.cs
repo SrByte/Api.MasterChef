@@ -69,7 +69,8 @@ namespace Api.MasterChef.Controllers
 					existingRecipe.Description = updatedRecipe.Description;
 					existingRecipe.CategoryId = updatedRecipe.CategoryId;
                     existingRecipe.URL = updatedRecipe.URL;
-                    existingRecipe.Tags = updatedRecipe.Tags;
+					existingRecipe.IngredientIds = updatedRecipe.IngredientIds;
+					existingRecipe.Tags = updatedRecipe.Tags;
 
 
 

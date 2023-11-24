@@ -45,6 +45,9 @@ namespace MasterChef.Web.Controllers
 				"Id",
 				"Name"
 				);
+
+			ViewBag.Ingredients = await _ingredientService.FindAllIngredients();
+
 			return View();
 		}
 
@@ -80,6 +83,9 @@ namespace MasterChef.Web.Controllers
 			categoryList.Find(c => c.Value == model.CategoryId.ToString()).Selected = true;
 
 			ViewBag.CategoryId = categoryList;
+
+			ViewBag.Ingredients = await _ingredientService.FindAllIngredients();
+
 
 			return View(model);
 
@@ -119,6 +125,9 @@ namespace MasterChef.Web.Controllers
 
             ViewBag.CategoryId = categoryList;
             ViewBag.Url = model.URL;
+
+            ViewBag.Ingredients = await _ingredientService.FindAllIngredients();
+
 
 
             return View(model);
