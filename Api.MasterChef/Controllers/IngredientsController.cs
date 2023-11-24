@@ -101,7 +101,6 @@ namespace Api.MasterChef.Controllers
 			return NotFound();
 		}
 
-
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteIngredient(int id)
 		{
